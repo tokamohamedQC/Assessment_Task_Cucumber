@@ -1,0 +1,8 @@
+StepDefinition\SecondPageStepsOfDefinition.class
+StepDefinition\ThirdPageStepsOfDefinition.class
+StepDefinition\FirstPageStepsOfDefinition.class
+Pages\ThirdPage.class
+Pages\RelatedActions.class
+StepDefinition\SearchStepDefinition.class
+Pages\SecondPage.class
+Pages\SearchPage.class
