@@ -1,3 +1,10 @@
+package StepDefinition;
+
+import Pages.RelatedActions;
+import Pages.SearchPage;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,19 +16,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.testng.annotations.*;
-
-public class SetUp {
+public class SearchPageDefinitionOfSteps {
     WebDriver driver = null;
     Properties prop;
     String configPath = "configuration.properties";
-    SearchPage searchPage = new SearchPage();
     RelatedActions relatedActions = new RelatedActions();
-
-    @BeforeTest
-    //@Parameters("browser") /* If you want to use testng.xml file pass browser argument in open()
-    // ,in switch() and comment the reading from config file lines (25-27)
-    public void Open() throws Exception {
+    SearchPage searchPage = new SearchPage();
+    @Given("user open browser")
+    public void open() throws IOException {
         prop = new Properties();
         InputStream input = new FileInputStream(configPath);
         prop.load(input);
@@ -42,18 +44,21 @@ public class SetUp {
                 driver = new EdgeDriver();
                 break;
         }
-            driver.manage().window().maximize();
-            driver.navigate().to(relatedActions.readFile(0, 0));
-            searchPage.SearchText(driver, relatedActions.readFile(1, 0));
-            searchPage.clickSearchIcon(driver);
-
-
+        driver.manage().window().maximize();
     }
 
-    @AfterTest
-    @Parameters("browser")
-    public void Close(@Optional("chrome") String browser) throws IOException {
-        relatedActions.screenShots(driver, browser);
-        driver.close();
+    @And("user navigates to Bing search engine")
+    public void navigate_to_url() throws Exception {
+        driver.navigate().to(relatedActions.readFile(0, 0));
+    }
+
+    @Then("enters keyword Vodafone in search input")
+    public void enter_search_input() throws Exception {
+        searchPage.SearchText(driver, relatedActions.readFile(1, 0));
+    }
+
+    @And("click search icon")
+    public void click_search_icon(){
+        searchPage.clickSearchIcon(driver);
     }
 }
